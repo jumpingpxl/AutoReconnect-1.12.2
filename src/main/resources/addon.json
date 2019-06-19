@@ -1,0 +1,9 @@
+{
+  "uuid": "%uuid%",
+  "name": "AutoReconnect",
+  "mainClass": "de.jumpingpxl.labymod.autoreconnect.JumpingAddon",
+  "author": "JumpingPxl",
+  "description": "Automatically reconnects to the server you got disconnected from",
+  "version": 1,
+  "category": 2
+}

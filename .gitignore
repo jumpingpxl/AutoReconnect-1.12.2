@@ -1,0 +1,13 @@
+*.bat
+*.txt
+*.ipr
+*.iws
+*.iml
+*.properties
+gradlew
+.gradle
+build
+eclipse
+gradle
+libs
+run
