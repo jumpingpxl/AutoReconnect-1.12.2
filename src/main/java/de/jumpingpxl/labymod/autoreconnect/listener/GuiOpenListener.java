@@ -27,7 +27,7 @@ public class GuiOpenListener {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onGuiOpen(GuiOpenEvent event) {
 		GuiScreen guiScreen = LabyModCore.getForge().getGuiOpenEventGui(event);
-		if(guiScreen instanceof GuiConnecting)
+		if (guiScreen instanceof GuiConnecting)
 			jumpingAddon.setLastServer(Minecraft.getMinecraft().getCurrentServerData());
 		if (guiScreen instanceof GuiDisconnected && (jumpingAddon.getSettings().isEnabled()))
 			try {
