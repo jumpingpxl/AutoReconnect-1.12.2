@@ -41,6 +41,9 @@ public class ModGuiDisconnected extends GuiScreen {
 		this.reason = (String) ReflectionHelper.findField(GuiDisconnected.class,
 				jumpingAddon.getReasonMappings()).get(guiDisconnected);
 		this.secondsLeft = jumpingAddon.getSettings().getSecondsUntilReconnect();
+		if (message.getUnformattedText().equals(I18n.format("disconnect.loginFailedInfo",
+				I18n.format("disconnect.loginFailedInfo.invalidSession"))))
+			throw new IllegalStateException();
 	}
 
 	@Override

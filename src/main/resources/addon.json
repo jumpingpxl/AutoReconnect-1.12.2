@@ -4,6 +4,7 @@
   "mainClass": "de.jumpingpxl.labymod.autoreconnect.JumpingAddon",
   "author": "JumpingPxl",
   "description": "Automatically reconnects to the server you got disconnected from",
-  "version": 1,
-  "category": 2
+  "version": 2,
+  "category": 2,
+  "icon": "https://jumpingpxl.github.io/pictures/JumpingAutoReconnect-Icon.png"
 }

@@ -56,4 +56,8 @@ public class Settings {
 		});
 		list.add(numberElement);
 	}
+
+	public boolean isEnabled() {
+		return enabled && !jumpingAddon.getLastServer().serverIP.split(":")[0].toLowerCase().endsWith("labymod.net");
+	}
 }

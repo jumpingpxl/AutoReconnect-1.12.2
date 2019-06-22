@@ -20,7 +20,7 @@ import java.util.List;
 public class JumpingAddon extends LabyModAddon {
 
 	private Settings settings;
-	private double version = 1.0D;
+	private double version = 2.0D;
 	@Setter
 	private ServerData lastServer;
 	private String[] parentScreenMappings = new String[]{"h", "field_146307_h", "parentScreen"};
