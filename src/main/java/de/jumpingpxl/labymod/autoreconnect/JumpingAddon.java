@@ -10,17 +10,11 @@ import net.minecraft.client.multiplayer.ServerData;
 
 import java.util.List;
 
-/**
- * @author Nico (JumpingPxl) Middendorf
- * @date 16.06.2019
- * @project LabyMod-Addon: AutoReconnect-1.12.2
- */
-
 @Getter
 public class JumpingAddon extends LabyModAddon {
 
 	private Settings settings;
-	private double version = 2.0D;
+	private int version = 3;
 	@Setter
 	private ServerData lastServer;
 	private String[] parentScreenMappings = new String[]{"h", "field_146307_h", "parentScreen"};

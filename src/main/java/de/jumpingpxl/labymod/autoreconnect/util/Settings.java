@@ -8,11 +8,6 @@ import net.labymod.utils.Material;
 
 import java.util.List;
 
-/**
- * @author Nico (JumpingPxl) Middendorf
- * @date 16.06.2019
- */
-
 @Getter
 public class Settings {
 
