@@ -53,6 +53,7 @@ public class Settings {
 	}
 
 	public boolean isEnabled() {
-		return enabled && !jumpingAddon.getLastServer().serverIP.split(":")[0].toLowerCase().endsWith("labymod.net");
+		return enabled && (jumpingAddon.getLastServer() != null &&
+				!jumpingAddon.getLastServer().serverIP.split(":")[0].toLowerCase().endsWith("labymod.net"));
 	}
 }
