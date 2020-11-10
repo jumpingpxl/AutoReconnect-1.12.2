@@ -17,42 +17,53 @@ import java.util.TimerTask;
 
 public class ModGuiDisconnected extends GuiScreen {
 
-	private JumpingAddon jumpingAddon;
+	private static final String[] PARENT_SCREEN_MAPPINGS = new String[]{"h", "field_146307_h",
+			"parentScreen"};
+	private static final String[] MESSAGE_MAPPINGS = new String[]{"f", "field_146304_f", "message"};
+	private static final String[] REASON_MAPPINGS = new String[]{"a", "field_146306_a", "reason"};
+
+	private final JumpingAddon jumpingAddon;
+	private final GuiScreen parentScreen;
+	private final ITextComponent message;
+	private final String reason;
 	private GuiButton reconnectButton;
 	private Timer timer;
-	private GuiScreen parentScreen;
-	private ITextComponent message;
-	private String reason;
 	private int secondsLeft;
 	private int reasonHeight;
 	private List<String> multilineMessage;
 
-	public ModGuiDisconnected(JumpingAddon jumpingAddon, GuiDisconnected guiDisconnected) throws IllegalAccessException {
+	public ModGuiDisconnected(JumpingAddon jumpingAddon, GuiDisconnected guiDisconnected)
+			throws IllegalAccessException {
 		this.jumpingAddon = jumpingAddon;
-		this.parentScreen = (GuiScreen) ReflectionHelper.findField(GuiDisconnected.class,
-				jumpingAddon.getParentScreenMappings()).get(guiDisconnected);
-		this.message = (ITextComponent) ReflectionHelper.findField(GuiDisconnected.class,
-				jumpingAddon.getMessageMappings()).get(guiDisconnected);
-		this.reason =
-				(String) ReflectionHelper.findField(GuiDisconnected.class,  jumpingAddon.getReasonMappings()).get(guiDisconnected);
-		this.secondsLeft = jumpingAddon.getSettings().getSecondsUntilReconnect();
-		if (message.getUnformattedText().equals(I18n.format("disconnect.loginFailedInfo", I18n.format("disconnect" +
-				".loginFailedInfo.invalidSession")))) {
+
+		parentScreen = (GuiScreen) ReflectionHelper.findField(GuiDisconnected.class,
+				PARENT_SCREEN_MAPPINGS).get(guiDisconnected);
+		message = (ITextComponent) ReflectionHelper.findField(GuiDisconnected.class, MESSAGE_MAPPINGS)
+				.get(guiDisconnected);
+		reason = (String) ReflectionHelper.findField(GuiDisconnected.class, REASON_MAPPINGS).get(
+				guiDisconnected);
+		secondsLeft = jumpingAddon.getSettings().getSecondsUntilReconnect();
+
+		if (message.getUnformattedText().equals(I18n.format("disconnect.loginFailedInfo",
+				I18n.format("disconnect" + ".loginFailedInfo.invalidSession")))) {
 			throw new IllegalStateException();
 		}
 	}
 
 	@Override
 	public void initGui() {
-		this.buttonList.clear();
-		this.multilineMessage = this.fontRenderer.listFormattedStringToWidth(this.message.getFormattedText(), this.width - 50);
-		this.reasonHeight = this.multilineMessage.size() * this.fontRenderer.FONT_HEIGHT;
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 10,
-				this.height / 2 + this.reasonHeight / 2 + this.fontRenderer.FONT_HEIGHT, 125, 20, I18n.format("gui.toMenu")));
-		this.reconnectButton = new GuiButton(1, this.width / 2 - 115,
-				this.height / 2 + this.reasonHeight / 2 + this.fontRenderer.FONT_HEIGHT, 100, 20,
-				"Reconnect in: §a" + this.secondsLeft + "s");
-		this.buttonList.add(reconnectButton);
+		buttonList.clear();
+		multilineMessage = fontRenderer.listFormattedStringToWidth(message.getFormattedText(),
+				width - 50);
+		reasonHeight = multilineMessage.size() * fontRenderer.FONT_HEIGHT;
+		buttonList.add(
+				new GuiButton(0, width / 2 - 10, height / 2 + reasonHeight / 2 + fontRenderer.FONT_HEIGHT,
+						125, 20, I18n.format("gui.toMenu")));
+		reconnectButton = new GuiButton(1, width / 2 - 115,
+				height / 2 + reasonHeight / 2 + fontRenderer.FONT_HEIGHT, 100, 20,
+				"Reconnect in: §a" + secondsLeft + "s");
+		buttonList.add(reconnectButton);
+
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 			@Override
@@ -80,6 +91,7 @@ public class ModGuiDisconnected extends GuiScreen {
 						timer.cancel();
 						break;
 				}
+
 				reconnectButton.displayString = "Reconnect in: " + color + secondsLeft + "s";
 			}
 		}, 1000L, 1000L);
@@ -87,39 +99,43 @@ public class ModGuiDisconnected extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRenderer, this.reason, this.width / 2,
-				this.height / 2 - this.reasonHeight / 2 - this.fontRenderer.FONT_HEIGHT * 2, 11184810);
-		int i = this.height / 2 - this.reasonHeight / 2;
-		if (this.multilineMessage != null) {
-			for (Object object : this.multilineMessage) {
-				this.drawCenteredString(this.fontRenderer, String.valueOf(object), this.width / 2, i, 16777215);
-				i += this.fontRenderer.FONT_HEIGHT;
+		drawDefaultBackground();
+		drawCenteredString(fontRenderer, reason, width / 2,
+				height / 2 - reasonHeight / 2 - fontRenderer.FONT_HEIGHT * 2, 11184810);
+		int i = height / 2 - reasonHeight / 2;
+		if (multilineMessage != null) {
+			for (Object object : multilineMessage) {
+				drawCenteredString(fontRenderer, String.valueOf(object), width / 2, i, 16777215);
+				i += fontRenderer.FONT_HEIGHT;
 			}
 		}
+
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (secondsLeft == 0) {
-			Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
-					Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
+			Minecraft.getMinecraft().displayGuiScreen(
+					new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
+							Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
 		}
 	}
 
 	@Override
 	public void onGuiClosed() {
 		super.onGuiClosed();
-		this.timer.cancel();
+		timer.cancel();
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.id == 0) {
-			this.timer.cancel();
-			this.mc.displayGuiScreen(this.parentScreen);
+			timer.cancel();
+			mc.displayGuiScreen(parentScreen);
 		}
+
 		if (button.id == 1) {
-			this.timer.cancel();
-			Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
-					Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
+			timer.cancel();
+			Minecraft.getMinecraft().displayGuiScreen(
+					new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
+							Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
 		}
 	}
 }

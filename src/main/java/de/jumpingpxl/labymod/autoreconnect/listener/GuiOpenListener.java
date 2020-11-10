@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class GuiOpenListener {
 
-	private JumpingAddon jumpingAddon;
+	private final JumpingAddon jumpingAddon;
 
 	public GuiOpenListener(JumpingAddon jumpingAddon) {
 		this.jumpingAddon = jumpingAddon;
@@ -27,6 +27,7 @@ public class GuiOpenListener {
 		if (guiScreen instanceof GuiConnecting) {
 			jumpingAddon.setLastServer(Minecraft.getMinecraft().getCurrentServerData());
 		}
+
 		if (guiScreen instanceof GuiDisconnected && jumpingAddon.getSettings().isEnabled()) {
 			try {
 				guiScreen = new ModGuiDisconnected(jumpingAddon, (GuiDisconnected) guiScreen);
@@ -36,6 +37,7 @@ public class GuiOpenListener {
 				e.printStackTrace();
 			}
 		}
+
 		LabyModCore.getForge().setGuiOpenEventGui(event, guiScreen);
 	}
 }

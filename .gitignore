@@ -11,3 +11,5 @@ eclipse
 gradle
 libs
 run
+out
+.idea
