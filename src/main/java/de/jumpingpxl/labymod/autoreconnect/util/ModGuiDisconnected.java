@@ -113,8 +113,7 @@ public class ModGuiDisconnected extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (secondsLeft == 0) {
 			Minecraft.getMinecraft().displayGuiScreen(
-					new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
-							Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
+					new GuiConnecting(parentScreen, Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
 		}
 	}
 
@@ -134,8 +133,7 @@ public class ModGuiDisconnected extends GuiScreen {
 		if (button.id == 1) {
 			timer.cancel();
 			Minecraft.getMinecraft().displayGuiScreen(
-					new GuiConnecting(LabyModCore.getMinecraft().getCustomMainMenu(),
-							Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
+					new GuiConnecting(parentScreen, Minecraft.getMinecraft(), jumpingAddon.getLastServer()));
 		}
 	}
 }
