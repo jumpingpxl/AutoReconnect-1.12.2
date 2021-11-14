@@ -1,15 +1,24 @@
-*.bat
-*.txt
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
 *.ipr
 *.iws
 *.iml
-*.properties
-gradlew
-.gradle
-build
-eclipse
-gradle
-libs
-run
-out
 .idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+
+libs/*
