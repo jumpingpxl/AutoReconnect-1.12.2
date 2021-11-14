@@ -29,10 +29,7 @@ public class GuiOpenListener {
 		if (guiScreen instanceof GuiDisconnected && jumpingAddon.getSettings().isEnabled()) {
 			try {
 				guiScreen = new ModGuiDisconnected(jumpingAddon, (GuiDisconnected) guiScreen);
-			} catch (IllegalStateException e) {
-				//guiScreen = new GuiRefreshSession(new ModGuiMultiplayer(null));
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (IllegalStateException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
