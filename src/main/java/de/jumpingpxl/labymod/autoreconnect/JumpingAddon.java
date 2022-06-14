@@ -43,4 +43,5 @@ public class JumpingAddon extends LabyModAddon {
 	public void setLastServer(ServerData lastServer) {
 		this.lastServer = lastServer;
 	}
+	
 }
